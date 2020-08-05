@@ -1,11 +1,8 @@
 import React, {useState} from 'react'
 
-function Form() {
-    const [formData, setFormData] = useState({
-        name: '',
-        email: '',
-        role: ''
-      }); 
+function Form(props) {
+
+    const [formData, setFormData] = useState(); 
     
     const onInputChange = event => {
         setFormData({
@@ -18,8 +15,12 @@ function Form() {
 
     const handleSubmit = event => {
         event.preventDefault();
-        setFormData({ name: '', email: '', role: '' });
-      };
+        props.setTeamMember([
+            ...props.teamMember, formData
+        ])
+        console.log(formData);
+    }
+
     return (
         <div>
             <form onSubmit={handleSubmit}>
@@ -42,11 +43,16 @@ function Form() {
                 <input type="submit" value="Add Team Member"/>
             </form>
             <h2>Team Members</h2>
-            <ul>
-                <li>Name: {formData["name"]}</li>
-                <li>Email: {formData["email"]}</li>
-                <li>Role: {formData["role"]}</li>
-            </ul>
+            {props.teamMember.map(member => (
+                <div key={member.id}>
+                    <ul>
+                        <li>Name: {member.name}</li>
+                        <li>Email: {member.email}</li>
+                        <li>Role: {member.role}</li>
+                    </ul>
+                </div>
+
+            ))}
 
             
         </div>
